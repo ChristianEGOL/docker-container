@@ -1,0 +1,26 @@
+{
+    "name": "Backoffice",
+    "service": "apache",
+    "remoteUser": "vscode",
+    "shutdownAction": "stopCompose",
+    "workspaceFolder": "/var/www/html",
+    "dockerComposeFile": "docker-compose.yaml",
+
+    "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "eamodio.gitlens",
+        "EditorConfig.EditorConfig",
+        "mikestead.dotenv",
+        "onecentlin.laravel-blade",
+        "dbaeumer.vscode-eslint",
+        "hollowtree.vue-snippets",
+        "sdras.vue-vscode-snippets",
+        "liuji-jim.vue",
+        "esbenp.prettier-vscode",
+        "mblode.twig-language-2",
+        "xdebug.php-debug",
+        "MykhailoKushnir.vscode-php-getter-setter",
+        "junstyle.php-cs-fixer",
+        "MehediDracula.php-namespace-resolver"
+    ]
+}
