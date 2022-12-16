@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  db:
+    image: mariadb:10.7
+    environment:
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_DATABASE: bb
+    volumes:
+      - shared:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - shared
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - 8080:80
+    environment:
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      PMA_HOST: db
+    networks:
+      - shared
+
+volumes:
+  shared:
+
+networks:
+  shared:
+    name: shared
