@@ -1,10 +1,6 @@
-FROM php:7.4-apache
+FROM php:5.6-apache
 
-# Arguments defined in docker-compose.yml
-ARG USER=vscode
-ARG UID=1000
-
-ENV APACHE_DOCUMENT_ROOT /var/www/html
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
@@ -20,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libzip-dev \
     libcurl3-dev \
+    libmcrypt-dev \
     zip \
     unzip
 
@@ -28,23 +25,14 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-configure intl && \
-    docker-php-ext-install curl zip pdo_mysql soap exif pcntl bcmath gd fileinfo intl \
+    docker-php-ext-install curl zip pdo_mysql soap exif pcntl bcmath gd fileinfo intl mcrypt \
     && a2enmod rewrite
 
-RUN pecl install xdebug \
-	&& docker-php-ext-enable xdebug
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u $UID -d /home/$USER $USER
-RUN mkdir -p /home/$USER/.composer && \
-    chown -R $USER:$USER /home/$USER
-
 # Set working directory
-WORKDIR /var/www
-
-USER $USER
+WORKDIR /var/www/html
 
 EXPOSE 80

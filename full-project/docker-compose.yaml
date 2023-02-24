@@ -3,7 +3,6 @@ version: "3.9"
 services:
   apache:
     image: php8.1
-    container_name: web
     volumes:
       - ..:/var/www/html
     ports:
@@ -15,16 +14,14 @@ services:
 
   node:
     build: node
-    container_name: node
     user: "node"
-    working_dir: /workspaces/laravel/vite
+    working_dir: /workspace/node/vite
     expose:
       - "3000"
     ports:
       - 3000:3000
     volumes:
-      - ..:/workspaces/laravel
-    command: "npm run dev"
+      - ..:/workspace/node
     networks:
       - backapp
 
